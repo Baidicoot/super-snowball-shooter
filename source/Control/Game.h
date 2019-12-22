@@ -13,7 +13,7 @@
 #include "Player.h"
 
 #define MAX_SNOWMEN 24
-#define MAX_FLARES 9
+#define MAX_FLARES 18
 
 struct GameState {
 	std::vector<Snowman> snowmen;

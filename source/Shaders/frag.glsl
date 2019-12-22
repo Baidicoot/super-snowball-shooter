@@ -1,7 +1,7 @@
 #version 430
 
 #define OBJ 256
-#define UI 32
+#define UI 64
 
 in vec2 uv;
 out vec3 color;

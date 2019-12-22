@@ -7,9 +7,9 @@ using namespace glm;
 
 Object makeScene(GameState g) {
 	vec2 pos = g.player.pos + getFacing(g.player, vec2(0, 3));
-	float height = getHeight(g.terrain, pos) + 5;
+	float height = getHeight(g.terrain, pos) + 0.5;
 
-	Object joined = fromLight(singleLight(vec3(pos.x, height, pos.y), vec4(1, 1, 1, 50)));
+	Object joined = fromLight(singleLight(vec3(pos.x, height, pos.y), vec4(1)));
 	joined.append(g.terrain);
 
 	for (int i = 0; i < g.snowballs.size(); i++) {

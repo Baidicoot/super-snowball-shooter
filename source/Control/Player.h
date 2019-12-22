@@ -11,9 +11,9 @@
 #include "../Objects/Snowball.h"
 
 #define DMG_PER_SNOWMAN 0.05f
-#define DMG_DIST 6.0f
+#define DMG_DIST 7.5f
 #define MAX_DMG_DIST 5.0f
-#define REGEN 0.025f
+#define REGEN 0.01f
 
 struct Player {
 	glm::vec2 pos;
