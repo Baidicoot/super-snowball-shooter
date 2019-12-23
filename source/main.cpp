@@ -33,6 +33,11 @@ UI makeGameOverLetter(char letter) {
 	return scale(l, vec2(0.05, 0.1));
 }
 
+UI makePressStartLetter(char letter) {
+	UI l = makeLetter(letter, vec4(1), 0.2);
+	return scale(l, vec2(0.05, 0.1));
+}
+
 int main(void)
 {
 	/*
@@ -51,17 +56,44 @@ int main(void)
 	const float turnRate = 2.0;
 
 	GameState game = emptyGame();
-	game.player.pos = vec2(20, -25);
 
 	float last = glfwGetTime();
 
-	bool gameOver = false;
+	bool died = false;
+	bool waiting = true;
 
 	int kills = 0;
 
 	do {
 		float time = glfwGetTime();
-		if (!gameOver) {
+		if (waiting) {
+			vector<UI> press;
+			press.push_back(makePressStartLetter('P'));
+			press.push_back(makePressStartLetter('R'));
+			press.push_back(makePressStartLetter('E'));
+			press.push_back(makePressStartLetter('S'));
+			press.push_back(makePressStartLetter('S'));
+			press.push_back(makePressStartLetter(' '));
+			press.push_back(makePressStartLetter('S'));
+			press.push_back(makePressStartLetter('P'));
+			press.push_back(makePressStartLetter('A'));
+			press.push_back(makePressStartLetter('C'));
+			press.push_back(makePressStartLetter('E'));
+
+			UI ui = uiEmpty();
+
+			for (int i = 0; i < press.size(); i++) {
+				float xdisp = (i + 0.5) / press.size() * 1.5 - 0.75;
+				ui = join(ui, translate(press[i], vec2(xdisp, 0)));
+			}
+
+			camera.renderObjects(makeScene(game), ui);
+
+			if (glfwGetKey(camera.window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+				waiting = false;
+			}
+		}
+		else if (!died) {
 			UI ui = makeDigit(game.player.nflares, vec4(1), 0.25);
 			ui = scale(ui, vec2(0.0528, 0.1024));
 			ui = translate(ui, vec2(-0.85, 0.75));
@@ -92,7 +124,7 @@ int main(void)
 			UI blueScreen = single(vec4(-1, -1, 1, 1), vec4(0, 0, 1, dhp / dt));
 			ui = join(blueScreen, ui);
 
-			gameOver = dead(game);
+			died = dead(game);
 
 			if (newState.snowmen.size() < game.snowmen.size()) {
 				kills += 1;
@@ -157,6 +189,12 @@ int main(void)
 			}
 
 			camera.renderObjects(makeScene(game), ui);
+
+			if (glfwGetKey(camera.window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+				died = false;
+				game = emptyGame();
+				kills = 0;
+			}
 		}
 
 		glfwSwapBuffers(camera.window);

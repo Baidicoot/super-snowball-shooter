@@ -66,6 +66,12 @@ UI makeLetter(char letter, vec4 color, float thickness) {
 		segments[5] = true;
 		segments[6] = true;
 	}
+	if (letter == 'C') {
+		segments[0] = true;
+		segments[1] = true;
+		segments[4] = true;
+		segments[6] = true;
+	}
 	if (letter == 'E') {
 		segments[0] = true;
 		segments[1] = true;
@@ -97,6 +103,13 @@ UI makeLetter(char letter, vec4 color, float thickness) {
 		segments[4] = true;
 		segments[6] = true;
 	}
+	if (letter == 'P') {
+		segments[0] = true;
+		segments[1] = true;
+		segments[3] = true;
+		segments[5] = true;
+		segments[6] = true;
+	}
 	if (letter == 'R') {
 		segments[0] = true;
 		segments[1] = true;
@@ -104,6 +117,13 @@ UI makeLetter(char letter, vec4 color, float thickness) {
 		segments[5] = true;
 		segments[6] = true;
 		segments[7] = true;
+	}
+	if (letter == 'S') {
+		segments[1] = true;
+		segments[2] = true;
+		segments[4] = true;
+		segments[5] = true;
+		segments[6] = true;
 	}
 	if (letter == 'V') {
 		segments[0] = true;

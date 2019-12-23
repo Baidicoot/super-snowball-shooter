@@ -18,8 +18,8 @@
 
 #include <vector>
 
-#define OBJS 128
-#define UIS 32
+#define OBJS 256
+#define UIS 64
 #define RWIDTH 512
 #define RHEIGHT 256
 #define DWIDTH 1366
