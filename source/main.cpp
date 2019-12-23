@@ -91,6 +91,7 @@ int main(void)
 
 			if (glfwGetKey(camera.window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 				waiting = false;
+				glfwSetInputMode(camera.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			}
 		}
 		else if (!died) {
@@ -126,6 +127,10 @@ int main(void)
 
 			died = dead(game);
 
+			if (died) {
+				glfwSetInputMode(camera.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
+
 			if (newState.snowmen.size() < game.snowmen.size()) {
 				kills += 1;
 			}
@@ -134,28 +139,29 @@ int main(void)
 
 			camera.renderObjects(makeScene(game), ui);
 
-			if (glfwGetKey(camera.window, GLFW_KEY_UP) == GLFW_PRESS) {
+			vec<2, double> cursorPos;
+			glfwGetCursorPos(camera.window, &cursorPos.x, &cursorPos.y);
+
+			game.player.facing = cursorPos.x / DWIDTH * 2;
+
+			if (glfwGetKey(camera.window, GLFW_KEY_W) == GLFW_PRESS) {
 				game.player = advance(game.player, vec2(0, 5), dt);
 			}
-			if (glfwGetKey(camera.window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+			if (glfwGetKey(camera.window, GLFW_KEY_S) == GLFW_PRESS) {
 				game.player = advance(game.player, vec2(0, -5), dt);
 			}
-			if (glfwGetKey(camera.window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+			if (glfwGetKey(camera.window, GLFW_KEY_D) == GLFW_PRESS) {
 				game.player = advance(game.player, vec2(5, 0), dt);
 			}
-			if (glfwGetKey(camera.window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+			if (glfwGetKey(camera.window, GLFW_KEY_A) == GLFW_PRESS) {
 				game.player = advance(game.player, vec2(-5, 0), dt);
 			}
-			if (glfwGetKey(camera.window, GLFW_KEY_A) == GLFW_PRESS) {
-				game.player.facing -= turnRate * dt;
-			}
-			if (glfwGetKey(camera.window, GLFW_KEY_D) == GLFW_PRESS) {
-				game.player.facing += turnRate * dt;
-			}
-			if (glfwGetKey(camera.window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			if (glfwGetKey(camera.window, GLFW_KEY_SPACE) == GLFW_PRESS ||
+				glfwGetMouseButton(camera.window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 				game = throwSnowball(game);
 			}
-			if (glfwGetKey(camera.window, GLFW_KEY_F) == GLFW_PRESS) {
+			if (glfwGetKey(camera.window, GLFW_KEY_F) == GLFW_PRESS ||
+				glfwGetMouseButton(camera.window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 				game = throwFlare(game);
 			}
 		}
@@ -194,6 +200,7 @@ int main(void)
 				died = false;
 				game = emptyGame();
 				kills = 0;
+				glfwSetInputMode(camera.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			}
 		}
 
