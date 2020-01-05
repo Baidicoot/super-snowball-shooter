@@ -7,6 +7,7 @@
 
 #include <glm/glm.hpp>
 using namespace glm;
+using namespace std;
 
 #include "../Common/loadShaders.h"
 #include "Renderer.h"
@@ -57,8 +58,10 @@ void Renderer::renderObjects(Object scene, UI ui) {
 
 	//printf("%f %f %f %f", objs[0], objs[1], objs[2], objs[3]);
 
-	auto objs = scene.mesh.spheres;
-	auto colors = scene.mesh.colors;
+	auto tmp = decimate(scene.mesh, pos, 10);
+	vector<vec4> objs = tmp.spheres;
+	vector<vec3> colors = tmp.colors;
+
 	auto light = scene.light;
 
 	float t = glfwGetTime();

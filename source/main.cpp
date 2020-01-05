@@ -63,6 +63,7 @@ int main(void)
 	bool waiting = true;
 
 	int kills = 0;
+	int frames = 0;
 
 	do {
 		float time = glfwGetTime();
@@ -210,11 +211,14 @@ int main(void)
 		float curr = glfwGetTime();
 
 		if (curr - last >= 1) {
-			cout << dt << "s per frame (" << 1.0 / dt << " fps)" << endl;
+			//cout << dt << "s per frame (" << 1.0 / dt << " fps)" << endl;
 			last = curr;
+			cout << frames << endl;
+			frames = 0;
 		}
 
 		dt = curr - time;
+		frames += 1;
 	} while (glfwGetKey(camera.window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(camera.window) == 0);
 	
 	glfwTerminate();

@@ -58,3 +58,15 @@ void Mesh::append(Mesh o) {
 	spheres.insert(spheres.end(), o.spheres.begin(), o.spheres.end());
 	colors.insert(colors.end(), o.colors.begin(), o.colors.end());
 }
+
+Mesh decimate(Mesh a, vec3 pos, float maxDist) {
+	Mesh b;
+	for (int i = 0; i < a.spheres.size(); i++) {
+		float sDist = distance(vec3(a.spheres[i].x, a.spheres[i].y, a.spheres[i].z), pos) - a.spheres[i].w;
+		if (sDist < maxDist && a.spheres[i].w > 0) {
+			b.spheres.push_back(a.spheres[i]);
+			b.colors.push_back(a.colors[i]);
+		}
+	}
+	return b;
+}

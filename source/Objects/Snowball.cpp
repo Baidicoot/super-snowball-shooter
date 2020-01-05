@@ -32,7 +32,7 @@ Object flareMesh() {
 	vector<vec4> sphereVec(spheres, spheres + 3);
 	vector<vec3> colorVec(colors, colors + 3);
 
-	return fromBoth(Mesh{ sphereVec, colorVec }, singleLight(vec3(0, 0.5, 0), vec4(1, 0.5, 0, 250)));
+	return fromBoth(Mesh{ sphereVec, colorVec }, singleLight(vec3(0, 0.5, 0), vec4(1, 0.5, 0, 50)));
 }
 
 Droppable spawnFlare(vec3 pos, vec3 vel) {

@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#include <vector>
 
 #include "../Common/loadShaders.h"
 #include "Renderer.h"
@@ -20,10 +21,10 @@
 
 #define OBJS 256
 #define UIS 64
-#define RWIDTH 512
-#define RHEIGHT 256
-#define DWIDTH 1366
-#define DHEIGHT 705
+#define RWIDTH 1024
+#define RHEIGHT 512
+#define DWIDTH 1280
+#define DHEIGHT 640
 #define SWIDTH 512
 #define SHEIGHT 256
 

@@ -99,7 +99,7 @@ void main() {
 	if (id == -1) {
 		imageStore(out_img, pixel_coords, vec4(0));
 	} else {
-		vec3 shadow = shadowRay(pos, hitPos, id, 0.1);
+		vec3 shadow = clamp(shadowRay(pos, hitPos, id, 0.1), -2, 2);
 		imageStore(out_img, pixel_coords, vec4(shadow, 1));
 	}
 }

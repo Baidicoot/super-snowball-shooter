@@ -20,14 +20,14 @@ Object genSnowman(Snowman s, Object terrain, vec2 playerPos) {
 
 	vec4 pos2(pos, 0);
 	vec4 snowman[] = {
-		pos2 + vec4(0, 0, 0, 1),
-		pos2 + vec4(0, 1, 0, 0.75),
-		pos2 + vec4(0, 2, 0, 0.5),
+		vec4(0, 0, 0, 1),
+		vec4(0, 1, 0, 0.75),
+		vec4(0, 2, 0, 0.5),
 
-		vec4(pos + vec3(0.25, 2, 0.385) * pitch(angleToPlayer), 0.1),
-		vec4(pos + vec3(-0.25, 2, 0.385) * pitch(angleToPlayer), 0.1),
+		vec4(0.25, 2, 0.385, 0.1),
+		vec4(-0.25, 2, 0.385, 0.1),
 
-		vec4(pos + vec3(0, 1.9, 0.5) * pitch(angleToPlayer), 0.1)
+		vec4(0, 1.9, 0.5, 0.1)
 	};
 	int sn = sizeof(snowman) / sizeof(snowman[0]);
 
@@ -39,6 +39,12 @@ Object genSnowman(Snowman s, Object terrain, vec2 playerPos) {
 	int cn = sizeof(colmap) / sizeof(colmap[0]);
 
 	std::vector<vec4> objs(snowman, snowman + sn);
+
+	for (int i = 0; i < objs.size(); i++) {
+		vec3 rot = vec3(objs[i].x, objs[i].y, objs[i].z) * pitch(angleToPlayer);
+		objs[i] = vec4(rot, objs[i].w) + pos2;
+	}
+
 	std::vector<vec3> colors(colmap, colmap + cn);
 
 	return fromMesh(Mesh{objs, colors});

@@ -10,6 +10,8 @@ struct Mesh {
 	void append(Mesh o);
 };
 
+Mesh decimate(Mesh a, glm::vec3 pos, float maxDist);
+
 Mesh join(Mesh a, Mesh b);
 
 Mesh single(glm::vec4 sphere, glm::vec3 color);

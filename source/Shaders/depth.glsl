@@ -5,7 +5,7 @@
 layout(local_size_x = 1, local_size_y = 1) in;
 layout(rgba32f, binding = 0) uniform image2D img_out;
 
-float maxDist = 15;
+float maxDist = 10;
 
 uniform float time;
 uniform vec3 pos;
@@ -17,7 +17,6 @@ uniform int nobj;
 vec2 fov = vec2(1.3, 0.7);
 
 struct RayResult {
-	bool intersected;
 	float t1;
 	float t2;
 };
@@ -64,24 +63,20 @@ mat3 roll(float c) {
 
 RayResult intersectSphere(Ray r, vec4 s) {
 	float t = dot(s.xyz - r.o, r.d);
-	if (t < 0) return RayResult(false, 0, 0);
+	//if (t < 0) return RayResult(maxDist, maxDist);
 	float y = distance(r.o + t*r.d, s.xyz);
-	if (y >= s.w) return RayResult(false, 0, 0);
+	if (y >= s.w || t < 0) return RayResult(maxDist, maxDist);
 	float x = sqrt(s.w*s.w - y*y);
-	return RayResult(true, t - x, t + x);
+	return RayResult(t - x, t + x);
 }
 
 Intersection castRay(Ray r, vec4[OBJ] s) {
-	Intersection minI = Intersection(false, 0, 0);
+	Intersection minI = Intersection(false, 0, maxDist);
 
 	for (int i = 0; i < nobj; i++) {
-		if (s[i].w <= 0) continue;
-		if (distance(r.o, s[i].xyz) - s[i].w >= maxDist) continue;
 		RayResult r = intersectSphere(r, s[i]);
-		if (r.intersected) {
-			if (r.t1 < minI.d || !minI.exists) {
-				minI = Intersection(true, i, r.t1);
-			}
+		if (r.t1 < minI.d) {
+			minI = Intersection(true, i, r.t1);
 		}
 	}
 
@@ -104,7 +99,7 @@ void main() {
 	if (o.exists) {
 		pixel = vec4(normalize(r.d) * o.d, o.id);
 	} else {
-		pixel = vec4(normalize(r.d), -1);
+		pixel = vec4(normalize(r.d) * maxDist, -1);
 	}
 
 	imageStore(img_out, pixel_coords, pixel);
